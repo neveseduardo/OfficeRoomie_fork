@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace OfficeRoomie.DTO;
+
 public class LoginDto
 {
     [Required(ErrorMessage = "Campo obrigatório! {0}")]

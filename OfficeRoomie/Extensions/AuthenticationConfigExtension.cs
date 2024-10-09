@@ -8,6 +8,8 @@ public static class AuthorizeConfigExtension
         services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
         {
             options.LoginPath = "/auth/login";
+            options.LogoutPath = "/auth/logout";
+            options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
         });
 
 

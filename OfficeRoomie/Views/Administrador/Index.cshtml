@@ -1,0 +1,37 @@
+@model IEnumerable<OfficeRoomie.ViewModels.AdministradorViewModel>
+@{
+    Layout = "/Views/Layouts/_Dashboard.cshtml";
+    ViewData["Title"] = "Administradores";
+}
+
+<h1>Administradores</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var administrador in Model)
+        {
+            <tr>
+                <td>@administrador.id</td>
+                <td>@administrador.nome</td>
+                <td>@administrador.email</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@administrador.id">Detalhes</a>
+                    <a asp-action="Edit" asp-route-id="@administrador.id">Editar</a>
+                    <form asp-action="Delete" asp-route-id="@administrador.id" method="post" style="display:inline;">
+                        <button type="submit">Deletar</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Create">Adicionar Novo Administrador</a>

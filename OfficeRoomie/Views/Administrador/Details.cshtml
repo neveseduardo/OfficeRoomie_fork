@@ -1,0 +1,16 @@
+@model OfficeRoomie.ViewModels.AdministradorViewModel
+@{
+    Layout = "/Views/Layouts/_Dashboard.cshtml";
+    ViewData["Title"] = "Administradores Detalhes";
+}
+
+<h1>Detalhes do Administrador</h1>
+
+<div>
+    <h2>@Model.nome</h2>
+    <p>ID: @Model.id</p>
+    <p>Email: @Model.email</p>
+    <p>Permissões: @Model.permissoes</p>
+</div>
+
+<a asp-action="Index">Voltar</a>

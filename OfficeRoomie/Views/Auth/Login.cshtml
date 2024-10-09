@@ -1,3 +1,4 @@
+@model OfficeRoomie.DTO.LoginDto
 @{
     Layout = "/Views/Layouts/_Authentication.cshtml";
     ViewData["Title"] = "Login";
@@ -5,16 +6,20 @@
 
 <div class="w-full min-h-[calc(100vh-100px)] flex flex-col justify-center items-center p-5">
     <form class="w-[300px] flex flex-col gap-4" method="post" action="/auth/login">
-        @if (ViewBag.Fail != null)
+        <!-- Exibe todos os erros do ModelState -->
+        @if (ViewData.ModelState.ErrorCount > 0)
         {
-            <div class="w-full p-4 rounded border border-red-800 text-red-800 bg-red-400">Usuário ou senha incorreta</div>
+            <div class="w-full p-4 rounded border border-red-800 text-red-800 bg-red-400">
+                @Html.ValidationSummary(false, "", new { @class = "text-red-800" })
+            </div>
         }
 
-        <input value="email@email.com" class="border rounded h-[40px] px-4" required type="email" placeholder="email"
-            name="email" />
+        <!-- Campo de email persistente -->
+        <input class="border rounded h-[40px] px-4" required type="email" placeholder="Email" name="email"
+            value="@Model?.email" />
 
-        <input value="admin" class="border rounded h-[40px] px-4" required type="password" placeholder="Senha"
-            name="password">
+        <!-- Campo de senha -->
+        <input class="border rounded h-[40px] px-4" required type="password" placeholder="Senha" name="password" />
 
         <button class="w-full h-[40px] bg-blue-400 cursor-pointer text-white rounded" type="submit">ENTRAR</button>
     </form>

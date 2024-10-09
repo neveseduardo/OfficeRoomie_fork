@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.JsonPatch;
 using OfficeRoomie.Models;
 using OfficeRoomie.Database;
+using OfficeRoomie.Helpers;
 
 namespace OfficeRoomie.Repositories;
 public class AdministradorRepository : IAdministradorRepository
@@ -60,10 +61,19 @@ public class AdministradorRepository : IAdministradorRepository
 
         if (administradorQuery == null)
         {
-            return administradorQuery;
+            return null;
         }
 
-        _dbContext.Entry(administradorQuery).CurrentValues.SetValues(administrador);
+        administradorQuery.nome = administrador.nome;
+        administradorQuery.email = administrador.email;
+
+        if (!string.IsNullOrWhiteSpace(administrador.senha))
+        {
+            administradorQuery.senha = PasswordHelper.HashPassword(administrador.senha);
+        }
+
+        administradorQuery.permissoes = administrador.permissoes;
+
         await _dbContext.SaveChangesAsync();
 
         return administradorQuery;
@@ -79,6 +89,7 @@ public class AdministradorRepository : IAdministradorRepository
         }
 
         administradorDocument.ApplyTo(AdministradorQuery);
+
         await _dbContext.SaveChangesAsync();
 
         return AdministradorQuery;

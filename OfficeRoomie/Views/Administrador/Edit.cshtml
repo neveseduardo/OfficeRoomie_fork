@@ -1,0 +1,40 @@
+@model OfficeRoomie.DTO.AdministradorDto
+@{
+    Layout = "/Views/Layouts/_Dashboard.cshtml";
+    ViewData["Title"] = "Editar Administrador";
+}
+
+<h1>Editar Administrador</h1>
+
+<form asp-action="Edit" method="post" class="grid grid-cols-12 gap-4">
+    <input type="hidden" asp-for="id" /> <!-- Campo oculto para o ID do administrador -->
+
+    <div class="flex flex-col col-span-12 md:col-span-6">
+        <label>Nome</label>
+        <input class="border px-4 rounded h-[40px]" asp-for="nome" placeholder="Nome" />
+        <span asp-validation-for="nome"></span>
+    </div>
+
+    <div class="flex flex-col col-span-12 md:col-span-6">
+        <label>Email</label>
+        <input class="border px-4 rounded h-[40px]" asp-for="email" placeholder="E-mail" />
+        <span asp-validation-for="email"></span>
+    </div>
+
+    <div class="flex flex-col col-span-12 md:col-span-6">
+        <label>Senha</label>
+        <input class="border px-4 rounded h-[40px]" asp-for="senha" type="password" placeholder="Senha" />
+        <span asp-validation-for="senha"></span>
+        <small class="text-sm text-slate-500">Deixe em branco se não quiser alterar a senha</small>
+    </div>
+
+    <div class="flex flex-col col-span-12 md:col-span-6">
+        <label>Permissões</label>
+        <input class="border px-4 rounded h-[40px]" asp-for="permissoes" placeholder="Permissões" />
+        <span asp-validation-for="permissoes"></span>
+    </div>
+
+    <a asp-action="Index"
+        class="cursor-pointer h-[40px] rounded border border-slate-500 text-slate-500 flex items-center justify-center">Voltar</a>
+    <button type="submit" class="cursor-pointer h-[40px] bg-blue-400 rounded text-white">Salvar</button>
+</form>
