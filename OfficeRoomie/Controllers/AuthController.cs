@@ -1,48 +1,73 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using OfficeRoomie.Repositories;
-using OfficeRoomie.DTO;
 
 namespace OfficeRoomie.Controllers;
 
-[Route("api/v1/auth")]
-public class AuthenticationController : ControllerBase
+[Route("auth")]
+public class AuthController : Controller
 {
-    private readonly IAuthRepository _authRepository;
+    private readonly ILogger<AuthController> _logger;
 
-    public AuthenticationController(IAuthRepository authRepository)
+    public AuthController(ILogger<AuthController> logger)
     {
-        _authRepository = authRepository;
+        _logger = logger;
+    }
+
+    [HttpGet("login")]
+    public IActionResult Index()
+    {
+        return View("Login");
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> AuthenticateUser([FromBody] LoginDto dto)
+    public async Task<IActionResult> Authenticate([FromForm] IFormCollection formBody)
     {
-        try
+        if (formBody["email"] != "email@email.com" || formBody["password"] != "admin")
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            ViewBag.Fail = true;
 
-            if (dto == null || string.IsNullOrEmpty(dto.email) || string.IsNullOrEmpty(dto.password))
-            {
-                return BadRequest("Invalid client request");
-            }
-
-            var user = await _authRepository.ValidateAdministradorAsync(dto.email, dto.password);
-
-            if (user == null)
-            {
-                return Unauthorized();
-            }
-
-            var token = _authRepository.CreateToken(user);
-
-            return Ok(new { Token = token });
+            return View("Login");
         }
-        catch (Exception)
+
+        var user = new
         {
-            return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
+            Id = Guid.NewGuid(),
+            Name = "Administrador"
+        };
+
+        List<Claim> claims = [
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim(ClaimTypes.Name, user.Name)
+        ];
+
+        var authScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+
+        var identity = new ClaimsIdentity(claims, authScheme);
+        var principal = new ClaimsPrincipal(identity);
+
+        await HttpContext.SignInAsync(authScheme, principal, new AuthenticationProperties
+        {
+            IsPersistent = true
+        });
+
+        var returnUrl = formBody["ReturnUrl"].ToString();
+
+        if (!String.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl))
+        {
+            return Redirect(returnUrl);
         }
+
+
+        return Redirect("/");
+    }
+
+    [HttpGet("logout")]
+    public async Task<IActionResult> Logout()
+    {
+        await HttpContext.SignOutAsync();
+
+        return Redirect("/auth/login");
     }
 }

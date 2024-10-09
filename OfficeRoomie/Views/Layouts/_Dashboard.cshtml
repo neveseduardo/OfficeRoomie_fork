@@ -8,27 +8,47 @@
     <link rel="stylesheet" href="~/css/site.css" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="~/js/site.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/iconify/2.0.0/iconify.min.js"></script>
 </head>
 
 <body>
-    <header>
-        <nav class="bg-blue-400">
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/Clientes">Clientes</a></li>
-                <li><a href="/Sobre">Sobre</a></li>
-                <!-- Adicione mais links conforme necessário -->
-            </ul>
-        </nav>
-    </header>
+    <div class="w-full min-h-screen pl-[300px] relative">
+        <aside class="w-[300px] min-h-screen fixed top-0 left-0 bg-slate-950 text-white">
+            <div class="w-full h-[50px]">ASIDE HEADER</div>
 
-    <main role="main" class="container">
-        @RenderBody() <!-- Aqui o conteúdo das páginas será renderizado -->
-    </main>
+            <div class="w-full h-[calc(100vh-100px)] overflow-y-auto">
+                <ul>
+                    <li><a href="">ASIDE LINK</a></li>
+                    <li><a href="">ASIDE LINK</a></li>
+                    <li><a href="">ASIDE LINK</a></li>
+                    <li><a href="">ASIDE LINK</a></li>
+                </ul>
+            </div>
 
-    <footer>
-        <p>&copy; 2024 - Meu Aplicativo</p>
-    </footer>
+            <div class="w-full h-[50px]"></div>
+        </aside>
+
+        <main role="main">
+            <header class="w-full h-[50px] border-b px-4 flex justify-between gap-4 items-center">
+                <h1 class="font-bold uppercase">OfficeRoomie</h1>
+
+                <div class="flex gap-2 items-center">
+                    <span class="text-sm">Olá, @User?.Identity?.Name</span>
+                    <a href="" title="Logout">
+                        <span class="iconify" data-icon="ic:baseline-login" data-inline="false"></span>
+                    </a>
+                </div>
+            </header>
+
+            <section class="w-full min-h-[calc(100vh-100px)] p-4">
+                @RenderBody()
+            </section>
+
+            <footer class="w-full h-[50px] border-t px-4 flex items-center">
+                <p class="text-sm">&copy; 2024 - OfficeRoomie</p>
+            </footer>
+        </main>
+    </div>
 </body>
 
 </html>

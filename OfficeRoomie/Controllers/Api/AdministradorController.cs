@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using OfficeRoomie.Helpers;
@@ -7,9 +6,8 @@ using OfficeRoomie.Models;
 using OfficeRoomie.DTO;
 using OfficeRoomie.ViewModels;
 
-namespace OfficeRoomie.Controllers;
+namespace OfficeRoomie.Controllers.Api;
 
-[Authorize]
 [ApiController]
 [Route("api/v1/administrador")]
 public class AdministradorController : Controller

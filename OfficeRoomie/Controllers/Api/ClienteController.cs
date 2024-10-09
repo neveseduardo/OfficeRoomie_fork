@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using OfficeRoomie.Repositories;
@@ -6,9 +5,8 @@ using OfficeRoomie.Models;
 using OfficeRoomie.ViewModels;
 using OfficeRoomie.DTO;
 
-namespace OfficeRoomie.Controllers;
+namespace OfficeRoomie.Controllers.Api;
 
-[Authorize]
 [ApiController]
 [Route("api/v1/cliente")]
 public class ClienteController : Controller
